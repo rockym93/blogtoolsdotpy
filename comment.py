@@ -29,13 +29,13 @@ if form.getvalue("captcha") == "apple":
 	
 	blogtools.refresh(parent)
 	
-	blogtools.frontpage() #just in case
+	blogtools.buildfront() #just in case
 	
 	blogtools.save()
 	
 	print "<html><head><title>Comment posted.</title></head><body>"
 	print "Thanks, " + author + ". Your comment has been posted.<br>"
-	print "<a href='" + postlist[parent][2] + ".html'>&lt;Back</a>"
+	print "<a href='" + blogtools.postlist[parent][2] + ".html'>&lt;Back</a>"
 	print "</body></html>"
 else:
 	print "<html><head><title>Post failed.</title></head><body>"

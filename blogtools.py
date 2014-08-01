@@ -28,13 +28,13 @@ def newpost(timestamp, title, content, tags):
 	#Step 2: Add the new post to the master list.
 	
 	postlist[timestamp] = (title,tags,filepath,[])
+	keylist.append(timestamp)
 	
 	#Step 2.9: Check for Markdown. If the Markdown box is ticked, convert it to html
 	#Step 2.95: Replace Markdown <img to include a class to allow for resizing and stuff
 	
-	if 'markdown' in submission:
-		content = markdown.markdown(content)
-		content = content.replace('<img','<img class="markdown"')
+	content = markdown.markdown(content)
+	content = content.replace('<img','<img class="markdown"')
 	
 	#Step 3: Put the post content in a text file.
 	if not os.path.exists(year):
@@ -134,13 +134,16 @@ def buildfront(length=5):
 	for i in range(1,length + 1):
 		try:
 			fp = open("frontpage/" + str(i) + ".html","w")
-			fp.write(buildpost(keylist[i * -1],"templates/frontpost.html",postlist))
+			fp.write(buildpost(keylist[i * -1],"templates/frontpost.html"))
 			fp.close()
 		except IndexError:
 			pass
-	fp = open("previous","w")
-	fp.write(buildpost(keylist[-5],"templates/frontprev.html",postlist))
-	fp.close()
+	try:
+		fp = open("previous","w")
+		fp.write(buildpost(keylist[-5],"templates/frontprev.html",postlist))
+		fp.close()
+	except IndexError:
+		pass
 	
 def buildfeed(length=10):
 	'''rebuilds the atom feed'''

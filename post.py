@@ -3,6 +3,7 @@
 print "Content-Type: text/html"
 print
 
+import time
 import cgi
 import cgitb
 cgitb.enable()
