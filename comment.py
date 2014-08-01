@@ -7,39 +7,31 @@ import cgitb
 cgitb.enable()
 import time
 import cPickle
-from blogtools import postBuild,frontPage
+import blogtools
 
 form = cgi.FieldStorage()
 if form.getvalue("captcha") == "apple":
 	
-
-	f = open("postlist")
-	postlist = cPickle.load(f)
-	f.close()
-	
 	timestamp = int(time.time())
 	author = form.getvalue("username")
 	parent = int(form.getvalue("id"))
-	postlist[parent][3].append((timestamp,author))
+	
+	blogtools.postlist[parent][3].append((timestamp,author))
 	content = form.getvalue("comment")
 	content = content.replace("<","&lt")
 	content = content.replace(">","&gt")
 	#content = content.encode("ascii","ignore")
 	content = content.replace("\n","<br />")
 	
-	txtfile = open(postlist[parent][2] + "." + str(timestamp),"w")
+	txtfile = open(blogtools.postlist[parent][2] + "." + str(timestamp),"w")
 	txtfile.write(content)
 	txtfile.close()
 	
-	postfile = open(postlist[parent][2] + ".html","w")
-	postfile.write(postBuild(parent,"templates/template.html",postlist))
-	postfile.close()
+	blogtools.refresh(parent)
 	
-	frontPage(postlist)
+	blogtools.frontpage() #just in case
 	
-	f = open("postlist","w")
-	cPickle.dump(postlist,f)
-	f.close()
+	blogtools.save()
 	
 	print "<html><head><title>Comment posted.</title></head><body>"
 	print "Thanks, " + author + ". Your comment has been posted.<br>"
