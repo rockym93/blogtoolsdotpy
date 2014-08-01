@@ -98,7 +98,7 @@ def buildpost(key,templatefile):
 		cf = open(postlist[key][2] + "." + str(cts))
 		ctxt = cf.read()
 		cf.close()
-		comments += "<p class='comment'><b>" + cauth + " </b><br><i> " + time.ctime(cts+28800) + " </i><br><br>" + ctxt + "</p>\n"
+		comments += "<div class='comment'><b>" + cauth + " </b><br><i> " + time.ctime(cts+28800) + " </i><br><br>" + ctxt + "</div>\n"
 	#Permalink
 	permalink = postlist[key][2] + ".html"
 	#Open template file
@@ -134,7 +134,7 @@ def buildfront(length=5):
 			pass
 	try:
 		fp = open("previous","w")
-		fp.write(buildpost(keylist[-5],"templates/frontprev.html",postlist))
+		fp.write(buildpost(keylist[-5],"templates/frontprev.html"))
 		fp.close()
 	except IndexError:
 		pass
@@ -144,7 +144,7 @@ def buildfeed(length=10):
 	feed = '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Rocky\'s Blag</title><subtitle>The thrilling adventures of... some guy?</subtitle><link href="http://blog.rockym93.net/atom.xml" rel="self" /><link href="http://blog.rockym93.net" /><id>tag:rockym93.net,2012-12-19:blogfeed</id><updated>' + time.strftime("%Y-%m-%dT%H:%M:%SZ") + '</updated>'
 	for i in range(1, length+1):
 		try:
-			feed += buildpost(keylist[i*-1],"templates/atomentry.xml",postlist)
+			feed += buildpost(keylist[i*-1],"templates/atomentry.xml")
 		except IndexError:
 			pass
 	feed += '</feed>'
