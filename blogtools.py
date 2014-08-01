@@ -30,12 +30,6 @@ def newpost(timestamp, title, content, tags):
 	postlist[timestamp] = (title,tags,filepath,[])
 	keylist.append(timestamp)
 	
-	#Step 2.9: Check for Markdown. If the Markdown box is ticked, convert it to html
-	#Step 2.95: Replace Markdown <img to include a class to allow for resizing and stuff
-	
-	content = markdown.markdown(content)
-	content = content.replace('<img','<img class="markdown"')
-	
 	#Step 3: Put the post content in a text file.
 	if not os.path.exists(year):
 		os.mkdir(year)
@@ -86,7 +80,7 @@ def buildpost(key,templatefile):
 	printabletags.rstrip(",")
 	#Content
 	contentfile = open(postlist[key][2] + ".txt","r")
-	printabletext = contentfile.read()
+	printabletext = markdown.markdown(contentfile.read())
 	contentfile.close()
 	#Previous and next post buttons
 	previouspost = "../../" + postlist[keylist[keylist.index(key)-1]][2] + ".html"
