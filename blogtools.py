@@ -6,6 +6,11 @@ import os
 import urllib2
 import markdown
 
+if not os.path.exists("postlist"):
+	f = open("postlist","w")
+	cPickle.dump({},f)
+	f.close()
+
 f = open("postlist")
 postlist = cPickle.load(f)
 f.close()
@@ -127,9 +132,12 @@ def buildpost(key,templatefile):
 def buildfront(length=5):
 	'''rebuilds the front page'''
 	for i in range(1,length + 1):
-		fp = open("frontpage/" + str(i) + ".html","w")
-		fp.write(buildpost(keylist[i * -1],"templates/frontpost.html",postlist))
-		fp.close()
+		try:
+			fp = open("frontpage/" + str(i) + ".html","w")
+			fp.write(buildpost(keylist[i * -1],"templates/frontpost.html",postlist))
+			fp.close()
+		except IndexError:
+			pass
 	fp = open("previous","w")
 	fp.write(buildpost(keylist[-5],"templates/frontprev.html",postlist))
 	fp.close()
@@ -138,7 +146,10 @@ def buildfeed(length=10):
 	'''rebuilds the atom feed'''
 	feed = '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Rocky\'s Blag</title><subtitle>The thrilling adventures of... some guy?</subtitle><link href="http://blog.rockym93.net/atom.xml" rel="self" /><link href="http://blog.rockym93.net" /><id>tag:rockym93.net,2012-12-19:blogfeed</id><updated>' + time.strftime("%Y-%m-%dT%H:%M:%SZ") + '</updated>'
 	for i in range(1, length+1):
-		feed += buildpost(keylist[i*-1],"templates/atomentry.xml",postlist)
+		try:
+			feed += buildpost(keylist[i*-1],"templates/atomentry.xml",postlist)
+		except IndexError:
+			pass
 	feed += '</feed>'
 	feedfile = open("atom.xml","w")
 	feedfile.write(feed)
