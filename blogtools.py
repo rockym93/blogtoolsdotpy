@@ -68,29 +68,29 @@ def newpost(timestamp, title, content, tags):
 #and finds the next and previous posts using the master list.
 #Then it builds them into html using the template given
 def buildpost(key,templatefile):
-	#Date & Title
-	printabledate = time.strftime("%A, %d %B %Y",time.gmtime(key + 28800))
-	printabletime = time.strftime("%I:%M%p",time.gmtime(key + 28800))
-	atomtime = time.strftime("%Y-%m-%dT%H:%M:%S+08:00",time.gmtime(key + 28800))
-	printabletitle = postlist[key][0]
 	#Tags
 	printabletags = str()
 	for i in postlist[key][1]:
 		printabletags += '<a href="../../search.py?for=' + i + '&in=tags">' + i + '</a>,'
 	printabletags.rstrip(",")
+	
 	#Content
 	contentfile = open(postlist[key][2] + ".txt","r")
 	printabletext = markdown.markdown(contentfile.read())
 	contentfile.close()
+	
 	#Previous and next post buttons
-	previouspost = "../../" + postlist[keylist[keylist.index(key)-1]][2] + ".html"
-	#If this is the newest post, hide the 'next' link.
+	if keylist[0] != key:
+		previouspost = "../../" + postlist[keylist[keylist.index(key)-1]][2] + ".html"
+	else:
+		previouspost = False
+	
 	if keylist[-1] != key:
 		nextpost = "../../" + postlist[keylist[keylist.index(key)+1]][2] + ".html"
 	else:
 		nextpost = False
+	
 	#Comments
-	numcomments = str(len(postlist[key][3]))
 	comments = ""
 	for i in postlist[key][3]:
 		cts = i[0]
@@ -99,28 +99,36 @@ def buildpost(key,templatefile):
 		ctxt = cf.read()
 		cf.close()
 		comments += "<div class='comment'><b>" + cauth + " </b><br><i> " + time.ctime(cts+28800) + " </i><br><br>" + ctxt + "</div>\n"
-	#Permalink
-	permalink = postlist[key][2] + ".html"
+	
 	#Open template file
 	tf= open(templatefile)
 	template = tf.read()
 	tf.close()
+	
 	#Fill in template file
-	posthtml = template.replace("!DATE",printabledate)
-	posthtml = posthtml.replace("!TIME",printabletime)
-	posthtml = posthtml.replace("!ATOMTIME",atomtime)
-	posthtml = posthtml.replace("!TAGS",printabletags)
-	posthtml = posthtml.replace("!TITLE",printabletitle)
-	posthtml = posthtml.replace("!TEXT",printabletext)
-	posthtml = posthtml.replace("!PREVIOUS",previouspost)
-	posthtml = posthtml.replace("!NUMCOMMENTS",numcomments)
-	posthtml = posthtml.replace("!COMMENTS",comments)
-	posthtml = posthtml.replace("!POST_ID",str(key))
-	posthtml = posthtml.replace("!PERMALINK",permalink)
+	posthtml = template.format(
+	date = time.strftime("%A, %d %B %Y",time.gmtime(key + 28800)),
+	time = time.strftime("%I:%M%p",time.gmtime(key + 28800)),
+	atomtime = time.strftime("%Y-%m-%dT%H:%M:%S+08:00",time.gmtime(key + 28800)),
+	tags = printabletags,
+	title = postlist[key][0],
+	text = printabletext,
+	nextpost = nextpost,
+	numcomments = str(len(postlist[key][3])),
+	comments = comments,
+	postid = str(key),
+	permalink = postlist[key][2] + ".html"
+	)
+
 	if nextpost:
-		posthtml = posthtml.replace("!NEXT",nextpost)
+		posthtml = posthtml.replace("{next}",nextpost)
 	else:
-		posthtml = posthtml.replace("/*HIDDEN*/","display:none")
+		posthtml = posthtml.replace("/*nexthide*/","display:none")
+		
+	if previouspost:
+		posthtml = posthtml.replace("{previous}",previouspost)
+	else:
+		posthtml = posthtml.replace("/*prevhide*/","display:none")
 	return posthtml
 
 def buildfront(length=5):

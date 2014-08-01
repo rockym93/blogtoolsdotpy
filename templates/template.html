@@ -2,7 +2,7 @@
 <html><head>
 
   <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
-  <title>Blag - !TITLE</title>
+  <title>Blag - {title}</title>
   <link rel="stylesheet" href="http://www.rockym93.net/style.css" 
 type="text/css">
   <link href="../../atom.xml" type="application/atom+xml" 
@@ -33,17 +33,17 @@ src="/blag.png">
 </div>
 
 <div><br /></div>
-<span class="navlink" style="font-family:sans-serif;">!DATE</span>
+<span class="navlink" style="font-family:sans-serif;">{date}</span>
 <div class="main">
-<span class="rightlinks">Posted at !TIME under !TAGS.</span>
-<h3>!TITLE</h3>
+<span class="rightlinks">Posted at {time} under {tags}.</span>
+<h3>{title}</h3>
 <div class="bodytext">
-!TEXT
+{text}
 <p></p>
-<a href="javascript:void(0)" onclick="document.getElementById('comments').style.display='block'">!NUMCOMMENTS comments</a>
+<a href="javascript:void(0)" onclick="document.getElementById('comments').style.display='block'">{numcomments} comments</a>
 <div class="bodytext" id="comments" style="display:none">
-!COMMENTS
-<form method="POST" action="../../comment.py?id=!POST_ID">
+{comments}
+<form method="POST" action="../../comment.py?id={postid}">
 <input type="text" name="username" value="Name goes here."/><br>
 <textarea name="comment">Words go here.</textarea><br><br>
 <img src="/captcha.png"><br>
@@ -53,8 +53,8 @@ src="/blag.png">
 </div>
 <div></div>
 <div></div>
-<span style="float:left"><a href="!PREVIOUS">< Previous</a></span>
-<span style="float:right; /*HIDDEN*/"><a href="!NEXT">Next ></a></span>
+<span style="float:left; /*prevhide*/"><a href="{previous}">< Previous</a></span>
+<span style="float:right; /*nexthide*/"><a href="{next}">Next ></a></span>
 <p style="text-align:center"><b><a href="../../search.py">Archives</a></b></p>
 </div>
 </div>
