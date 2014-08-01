@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import time
-import cPickle
+import yaml
 import string
 import os
 import urllib2
@@ -8,11 +8,11 @@ import markdown
 
 if not os.path.exists("postlist"):
 	f = open("postlist","w")
-	cPickle.dump({},f)
+	yaml.dump({},f)
 	f.close()
 
 f = open("postlist")
-postlist = cPickle.load(f)
+postlist = yaml.load(f)
 f.close()
 
 keylist = postlist.keys()
@@ -27,7 +27,7 @@ def newpost(timestamp, title, content, tags):
 	
 	#Step 2: Add the new post to the master list.
 	
-	postlist[timestamp] = (title,tags,filepath,[])
+	postlist[timestamp] = [title,tags,filepath,[]]
 	keylist.append(timestamp)
 	
 	#Step 3: Put the post content in a text file.
@@ -155,7 +155,7 @@ def buildfeed(length=10):
 def save():
 	'''saves the currently open module instance of the postlist'''
 	f = open("postlist","w")
-	cPickle.dump(postlist,f)
+	yaml.dump(postlist,f)
 	f.close()
 
 def refresh(post):

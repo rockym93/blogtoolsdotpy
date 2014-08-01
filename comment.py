@@ -6,7 +6,7 @@ import cgi
 import cgitb
 cgitb.enable()
 import time
-import cPickle
+import yaml
 import blogtools
 
 form = cgi.FieldStorage()

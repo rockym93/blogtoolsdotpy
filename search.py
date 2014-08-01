@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 import os
 import time
-import cPickle
+import yaml
 import cgi
 import cgitb
 cgitb.enable()
 
 f = open("postlist")
-postlist = cPickle.load(f)
+postlist = yaml.load(f)
 f.close()
 
 keys = postlist.keys()
