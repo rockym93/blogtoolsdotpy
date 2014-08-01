@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+
+  <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+  <title>Blag - !TITLE</title>
+  <link rel="stylesheet" href="http://www.rockym93.net/style.css" 
+type="text/css">
+  <link href="../../atom.xml" type="application/atom+xml" 
+rel="alternate" 
+title="Rocky's Blag : Atom Feed">
+  </head>
+  <body>
+
+<span class="header"><img id="titlepic" alt="rockym93.net" 
+src="/blag.png">
+<br>
+<span class="links">
+<a class="navlink" href="http://www.rockym93.net/index.shtml">Home</a>&nbsp;
+<a class="navlink" href="http://www.rockym93.net/about.shtml">About</a>&nbsp;
+<a class="navlink" href="http://www.rockym93.net/writing/">Writing</a>&nbsp;
+<a class="navlink" id="currentpage" href="http://blog.rockym93.net/">Blag</a>&nbsp;
+<a class="navlink" href="http://www.rockym93.net/projects/">Projects</a>&nbsp;
+</span>
+
+<div class="main">
+	<span class="rightlinks">
+		<a href="../../search.py">archive</a> 
+		&middot; 
+		<a href="../../search.py?for=all&in=tags">tags</a> 
+		&middot; 
+		<a href="../../atom.xml">feed</a></span>
+	<h3 style="font-weight:normal;">The Blag Archives</h3>
+</div>
+
+<div><br /></div>
+<span class="navlink" style="font-family:sans-serif;">!DATE</span>
+<div class="main">
+<span class="rightlinks">Posted at !TIME under !TAGS.</span>
+<h3>!TITLE</h3>
+<div class="bodytext">
+!TEXT
+<p></p>
+<a href="javascript:void(0)" onclick="document.getElementById('comments').style.display='block'">!NUMCOMMENTS comments</a>
+<div class="bodytext" id="comments" style="display:none">
+!COMMENTS
+<form method="POST" action="../../comment.py?id=!POST_ID">
+<input type="text" name="username" value="Name goes here."/><br>
+<textarea name="comment">Words go here.</textarea><br><br>
+<img src="/captcha.png"><br>
+<input type="text" name="captcha" value="Prove you aren't a robot here." /><br>
+<input type="submit" value="Post" /><br>
+</form>
+</div>
+<div></div>
+<div></div>
+<span style="float:left"><a href="!PREVIOUS">< Previous</a></span>
+<span style="float:right; /*HIDDEN*/"><a href="!NEXT">Next ></a></span>
+<p style="text-align:center"><b><a href="../../search.py">Archives</a></b></p>
+</div>
+</div>
+
+
+<span class="quote">&copy; Rockwell McGellin
+<!-- Hello there. You're reading my source code. How's it hanging? -->
+</span>
+</span>
+</body></html>

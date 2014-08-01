@@ -1,0 +1,11 @@
+        <entry>
+                <title>!TITLE</title>
+                <link href="!PERMALINK" />
+                <link rel="alternate" type="text/html" href="!PERMALINK"/>
+                <id>tag:rockym93.net,2012-12-19:!POST_ID</id>
+                <published>!ATOMTIME</published>
+                <updated>!ATOMTIME</updated>
+                <author>
+                      <name>Rockwell McGellin</name>
+                </author>
+        </entry>
