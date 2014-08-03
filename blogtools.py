@@ -83,12 +83,12 @@ def buildpost(key,templatefile):
 	if keylist[0] != key:
 		previouspost = "../../" + postlist[keylist[keylist.index(key)-1]][2] + ".html"
 	else:
-		previouspost = False
+		previouspost = ""
 	
 	if keylist[-1] != key:
 		nextpost = "../../" + postlist[keylist[keylist.index(key)+1]][2] + ".html"
 	else:
-		nextpost = False
+		nextpost = ""
 	
 	#Comments
 	comments = ""
@@ -117,17 +117,15 @@ def buildpost(key,templatefile):
 	numcomments = str(len(postlist[key][3])),
 	comments = comments,
 	postid = str(key),
-	permalink = postlist[key][2] + ".html"
+	permalink = postlist[key][2] + ".html",
+	previous = previouspost,
+	next = nextpost
 	)
 
-	if nextpost:
-		posthtml = posthtml.replace("{next}",nextpost)
-	else:
+	if not nextpost:
 		posthtml = posthtml.replace("/*nexthide*/","display:none")
 		
-	if previouspost:
-		posthtml = posthtml.replace("{previous}",previouspost)
-	else:
+	if not previouspost:
 		posthtml = posthtml.replace("/*prevhide*/","display:none")
 	return posthtml
 
