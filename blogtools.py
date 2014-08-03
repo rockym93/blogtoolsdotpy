@@ -46,7 +46,7 @@ def newpost(timestamp, title, content, tags):
 	htmlpost.close()
 	
 	#Step 5: Find the previous post, and rebuild it to add a 'next' link
-	previd = keylist[-1]
+	previd = keylist[-2]
 	refresh(previd)
 	
 	#Step 6: Do the homepage.
