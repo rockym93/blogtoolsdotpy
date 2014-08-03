@@ -139,7 +139,7 @@ def buildfront(length=5):
 	
 	for i in range(1,length + 1):
 		try:
-			front +=  buildpost(keylist[i * -1],"templates/frontpost.html")
+			frontposts +=  buildpost(keylist[i * -1],"templates/frontpost.html")
 		except IndexError:
 			pass
 	if len(keylist) > length:
