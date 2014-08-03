@@ -131,20 +131,28 @@ def buildpost(key,templatefile):
 
 def buildfront(length=5):
 	'''rebuilds the front page'''
+	f = open("templates/index.template")
+	front = f.read()
+	f.close()
+	
+	frontposts = ""
+	previous = ""
+	
 	for i in range(1,length + 1):
 		try:
-			fp = open("frontpage/" + str(i) + ".html","w")
-			fp.write(buildpost(keylist[i * -1],"templates/frontpost.html"))
-			fp.close()
+			front +=  buildpost(keylist[i * -1],"templates/frontpost.html")
 		except IndexError:
 			pass
-	try:
-		fp = open("previous","w")
-		fp.write(buildpost(keylist[-5],"templates/frontprev.html"))
-		fp.close()
-	except IndexError:
-		pass
+	if len(keylist) > length:
+		previous = postlist[keylist[-(length + 1)][2] + ".html"
 	
+	front.format(
+	content = frontposts,
+	previous = previous
+	)
+	indexfile = open("index.html","w")
+	indexfile.write(front)
+	indexfile.close()
 def buildfeed(length=10):
 	'''rebuilds the atom feed'''
 	feed = '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Rocky\'s Blag</title><subtitle>The thrilling adventures of... some guy?</subtitle><link href="http://blog.rockym93.net/atom.xml" rel="self" /><link href="http://blog.rockym93.net" /><id>tag:rockym93.net,2012-12-19:blogfeed</id><updated>' + time.strftime("%Y-%m-%dT%H:%M:%SZ") + '</updated>'
