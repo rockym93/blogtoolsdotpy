@@ -124,7 +124,6 @@ def buildpost(key,templatefile):
 
 	if not nextpost:
 		posthtml = posthtml.replace("/*nexthide*/","display:none")
-		
 	if not previouspost:
 		posthtml = posthtml.replace("/*prevhide*/","display:none")
 	return posthtml

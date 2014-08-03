@@ -3,3 +3,5 @@ import blogtools
 
 for i in blogtools.postlist:
 	blogtools.refresh(i)
+
+blogtools.frontpage()
