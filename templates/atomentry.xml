@@ -1,11 +1,11 @@
         <entry>
-                <title>!TITLE</title>
-                <link href="!PERMALINK" />
-                <link rel="alternate" type="text/html" href="!PERMALINK"/>
-                <id>tag:rockym93.net,2012-12-19:!POST_ID</id>
-                <published>!ATOMTIME</published>
-                <updated>!ATOMTIME</updated>
+                <title>{title}</title>
+                <link href="{permalink}" />
+                <link rel="alternate" type="text/html" href="{permalink}"/>
+                <id>your-uri-here:{postid}</id>
+                <published>{atomtime}</published>
+                <updated>{atomtime}</updated>
                 <author>
-                      <name>Rockwell McGellin</name>
+                      <name>Your Name Here.</name>
                 </author>
         </entry>
