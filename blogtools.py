@@ -130,7 +130,7 @@ def buildpost(key,templatefile):
 
 def buildfront(length=5):
 	'''rebuilds the front page'''
-	f = open("templates/index.template")
+	f = open("templates/index.html")
 	front = f.read()
 	f.close()
 	
@@ -152,6 +152,7 @@ def buildfront(length=5):
 	indexfile = open("index.html","w")
 	indexfile.write(front)
 	indexfile.close()
+
 def buildfeed(length=10):
 	'''rebuilds the atom feed'''
 	feed = '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Rocky\'s Blag</title><subtitle>The thrilling adventures of... some guy?</subtitle><link href="http://blog.rockym93.net/atom.xml" rel="self" /><link href="http://blog.rockym93.net" /><id>tag:rockym93.net,2012-12-19:blogfeed</id><updated>' + time.strftime("%Y-%m-%dT%H:%M:%SZ") + '</updated>'
