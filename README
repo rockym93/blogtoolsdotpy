@@ -1,0 +1,147 @@
+=== Setting up a new blog ===
+
+Requirements: 
+A webserver, with ssh, ftp, or some other kind of direct 
+filesystem access.
+Python 2.x
+PyYAML (https://pypi.python.org/pypi/PyYAML)
+Markdown (https://pypi.python.org/pypi/Markdown)
+
+Those last two may need to be installed by your web host, or you'll 
+need to include them in your Python path somehow. You can do this by 
+adding them to sys.path manually at the start of blogtools.py. If 
+you're interested in doing this, good luck; I recommend just switching 
+to a webhost that doesn't suck.
+
+Now:
+1. Drop the whole lot into a new folder. It should work with a 
+subdirectory, though I've always used it in the root directory so 
+there may be some unexpected behaviour with some leftover absolute 
+links scattered around. I recommend doing an hg clone from the Google 
+Code repository at https://code.google.com/p/blogtoolsdotpy/
+
+2. Setup your templates. Everything except the atom feed is pretty 
+much functional to begin with and reasonably self-explanatory. 
+Basically, they use Python string formatting to replace the bits 
+inside {curly brackets} with the appropriate bit of content or 
+metadata, the rest of the HTML is fair game. the atom feed needs a 
+couple of site-specific namespacey things put in there first. Those 
+are marked with square brackets.
+
+3. Configuration. Currently this is spread all over the place, for 
+which I apologise. I'm going to list where to find everything you 
+might want to change here, because it's slightly easier than 
+refactoring everything to fit in a config file. That is in the plans 
+for future versions though.
+
+Front page length: blogtools.py, under buildfront, change the default 
+'length' parameter.
+Atom feed length: blogtools.py, under buildfeed, change the default 
+'length' parameter.
+Correct captcha response: comment.py, change:
+if form.getvalue("captcha") == "apple"
+to your desired captcha. Don't forget to change the image as well.
+
+=== Posting and editing ===
+Posting, for the sake of convenience, is done through an html form 
+found by default at new.html. It's very simple, and very 
+straightforward. Title goes in the title box, content (formatted using 
+Markdown or HTML) goes in the content box, and a comma-separated list 
+of tags, no spaces, goes in the tags box. Press post to post.
+
+Editing is a little more convoluted. It may get simpler in future 
+releases, but I don't really mind it being the way it is. Essentially 
+you have to modify the files by hand, and then run a script (currently 
+refreshall.py) to update the outward-facing part of the site, which is 
+all just boring old html.
+
+Post text is kept next to the post page inside the year/month tree, in a
+file ending in .txt instead of .html. It's stored as the original 
+markdown, and can be edited super easily to add content, fix typos, 
+and stuff like that. Any modifications here *don't* affect the 
+published date of the post, and won't show up until you update.
+
+Timestamps, tags, comment authors and dates, and canonical paths are 
+kept in the file called postlist, which is a reasonably readable yaml 
+file. Entries look like this:
+
+1407052762:
+- Templates are weird
+- [Testing, Templates]
+- 2014/08/templates-are-weird
+- - !!python/tuple [1407065852, Probably a spambot]
+  - !!python/tuple [1407065921, A commenter]
+  
+The first item is a Unix timestamp in seconds. It's the post's 
+identifier, but also the actual timestamp as reported on the page. You 
+can change this to your heart's content, there are no external 
+references to keys, I promise.
+The second item is the post title. Changing this affects the title as 
+displayed on pages and in search results, but not as displayed in the 
+url.
+The third item is a comma-separated list of tags. Edit these all you 
+like. A reminder that they're case sensitive
+The fourth item is the post's slug. You shouldn't really mess around 
+with this, as changing your URLs is very bad practice, but if you do, 
+make sure you also rename the post's associated .txt file to match and 
+delete the .html file, otherwise your post will have no content once 
+you update and will appear to still exist at the old url to anyone 
+with the old url.
+The fifth item is another list, which contains comments. Comments 
+consist of a timestamp and an author. Deleting one of these 
+effectively deletes the comment, although the content remains stored 
+as a blob of formatted sanitised HTML in a file at 
+[slug].[comment timestamp] (so, in the example, 
+2014/08/templates-are-weird.1407065852 would be your spambot's 
+comment.) This file can also be safely edited, for content or 
+censorship or whatever.
+
+Don't edit the .html files and expect the changes to stay around! You 
+need to edit either the postlist or the associated .txt file! 
+
+=== API ===
+(If you can call it that.)
+
+If you want to write fun extensions to the code, it's as simple as 
+doing: 
+
+import blogtools
+
+This will give you access to the following functions:
+
+newpost(timestamp, title, content, tags)
+buildpost(id, template)
+buildfront(length)
+buildfeed(length)
+refresh(post)
+
+Arguable 'buildpost' should be called 'formatpost', but whatever.
+
+It also gives you built-in access to your postlist as a dictionary, 
+addressable by timestamp, and a save() function, which commits any 
+changes you've made back to the list. Postlist items are a list, with 
+index 0 being the title as a string, 1 being list of tags as strings, 2 
+being slug as a string (add your own extension to get .txt or .html, 
+sorry) and 3 being a list containing comments as tuples, which are a 
+timestamp as an integer and an author as a string.
+
+Modifying comment and posting behaviour is totally possible, but 
+should probably be done in comment.py and post.py rather than 
+modifying these functions, since the blogtools.py functions are called 
+from all over the place and changing them will probably break 
+something.
+
+The entire project is available under an MIT licence, which means that 
+you're free to modify the code however you like with no restrictions 
+except that you leave the copyright notices intact. Although you 
+don't have to, if you build something cool with it, let me know!
+
+=== Contact ===
+
+blogtools.py is written by Rockwell McGellin. If you have any 
+questions, comments, bugs, whatever, you can contact me at 
+rockwell.m@gmail.com or through the Google Code page at 
+https://code.google.com/p/blogtoolsdotpy.
+
+If you want to check out my personal instance of blogtools, you can 
+find that at http://blog.rockym93.net/

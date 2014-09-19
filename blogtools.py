@@ -19,6 +19,7 @@ keylist = postlist.keys()
 keylist.sort()
 
 def newpost(timestamp, title, content, tags):
+	'''create a new post, complete with files and postlist entries.'''
 	#Step 1: Create a clean title to use as a filename, and a file path.
 	cleantitle = title.lower().translate(None,string.punctuation).replace(" ","-")
 	month = time.strftime("%m")
@@ -54,7 +55,6 @@ def newpost(timestamp, title, content, tags):
 	
 	#Step 7: Do the RSS feed
 	buildfeed()
-	urllib2.urlopen("http://rockym93.net/update.py")
 	
 	#Step 8: Write the master post list back to file
 	save()
@@ -68,6 +68,7 @@ def newpost(timestamp, title, content, tags):
 #and finds the next and previous posts using the master list.
 #Then it builds them into html using the template given
 def buildpost(key,templatefile):
+	'''fill in a template (from file at given path) with the details of given post'''
 	#Tags
 	printabletags = str()
 	for i in postlist[key][1]:
@@ -155,13 +156,19 @@ def buildfront(length=5):
 
 def buildfeed(length=10):
 	'''rebuilds the atom feed'''
-	feed = '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Rocky\'s Blag</title><subtitle>The thrilling adventures of... some guy?</subtitle><link href="http://blog.rockym93.net/atom.xml" rel="self" /><link href="http://blog.rockym93.net" /><id>tag:rockym93.net,2012-12-19:blogfeed</id><updated>' + time.strftime("%Y-%m-%dT%H:%M:%SZ") + '</updated>'
+	f = open("templates/atom.xml")
+	feed = f.read()
+	f.close()
+	feedposts = ""
 	for i in range(1, length+1):
 		try:
-			feed += buildpost(keylist[i*-1],"templates/atomentry.xml")
+			feedposts += buildpost(keylist[i*-1],"templates/atomentry.xml")
 		except IndexError:
 			pass
-	feed += '</feed>'
+	feed.format(
+	content = feedposts,
+	updated = time.strftime("%Y-%m-%dT%H:%M:%SZ")
+	)
 	feedfile = open("atom.xml","w")
 	feedfile.write(feed)
 	feedfile.close()
