@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--You need to fill this out with some basic stuff about your site before you start using it.-->
+<feed xmlns="http://www.w3.org/2005/Atom"><title></title><subtitle></subtitle><link href="[feed url]" rel="self" /><link href="[site root]" /><id>[id]</id><updated>{updated}</updated>
+{content}
+</feed>
+</xml>
