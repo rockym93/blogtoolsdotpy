@@ -19,10 +19,10 @@ if form.getvalue("captcha") == "apple":
 	
 	blogtools.postlist[parent][3].append((timestamp,author))
 	content = form.getvalue("comment")
-	content = markdown.markdown(content.decode('utf-8'),safe_mode='escape')
+	content = markdown.markdown(content.decode("utf-8"),safe_mode='escape')
 	
 	txtfile = open(blogtools.postlist[parent][2] + "." + str(timestamp),"w")
-	txtfile.write(content)
+	txtfile.write(content.encode("utf-8"))
 	txtfile.close()
 	
 	blogtools.refresh(parent)

@@ -13,8 +13,8 @@ import blogtools
 
 #Load the data from the form
 submission = cgi.FieldStorage()
-title = str(submission["title"].value).decode("utf-8")
-content = str(submission["content"].value).decode("utf-8")
+title = str(submission["title"].value)
+content = str(submission["content"].value)
 tags = str(submission["tags"].value).split(",")
 
 #Generate a timestamp to use as a key

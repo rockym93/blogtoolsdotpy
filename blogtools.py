@@ -77,7 +77,7 @@ def buildpost(key,templatefile):
 	
 	#Content
 	contentfile = open(postlist[key][2] + ".txt","r")
-	printabletext = markdown.markdown(contentfile.read())
+	printabletext = markdown.markdown(contentfile.read().decode('utf-8')).encode('utf-8')
 	contentfile.close()
 	
 	#Previous and next post buttons
@@ -97,7 +97,7 @@ def buildpost(key,templatefile):
 		cts = i[0]
 		cauth = i[1]
 		cf = open(postlist[key][2] + "." + str(cts))
-		ctxt = cf.read()
+		ctxt = cf.read().decode('utf-8')
 		cf.close()
 		comments += "<div class='comment'><b>" + cauth + " </b><br><i> " + time.ctime(cts+28800) + " </i><br><br>" + ctxt + "</div>\n"
 	
@@ -144,9 +144,9 @@ def buildfront(length=5):
 		except IndexError:
 			pass
 	if len(keylist) > length:
-		previous = postlist[keylist[-(length + 1)][2] + ".html"
+		previous = postlist[keylist[-(length + 1)][2]] + ".html"
 	
-	front.format(
+	front = front.format(
 	content = frontposts,
 	previous = previous
 	)
@@ -165,7 +165,7 @@ def buildfeed(length=10):
 			feedposts += buildpost(keylist[i*-1],"templates/atomentry.xml")
 		except IndexError:
 			pass
-	feed.format(
+	feed = feed.format(
 	content = feedposts,
 	updated = time.strftime("%Y-%m-%dT%H:%M:%SZ")
 	)
