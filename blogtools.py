@@ -72,7 +72,7 @@ def buildpost(key,templatefile):
 	#Tags
 	printabletags = str()
 	for i in postlist[key][1]:
-		printabletags += '<a href="../../search.py?for=' + i + '&in=tags">' + i + '</a>,'
+		printabletags += '<a href="../../search.py?for=' + i + '&amp;in=tags">' + i + '</a>,'
 	printabletags.rstrip(",")
 	
 	#Content
