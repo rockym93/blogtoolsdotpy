@@ -99,7 +99,7 @@ def buildpost(key,templatefile):
 		cf = open(postlist[key][2] + "." + str(cts))
 		ctxt = cf.read().decode('utf-8')
 		cf.close()
-		comments += "<div class='comment'><b>" + cauth + " </b><br><i> " + time.ctime(cts+28800) + " </i><br><br>" + ctxt + "</div>\n"
+		comments += "<div class='comment'><b>" + cauth + " </b><br /><i> " + time.ctime(cts+28800) + " </i><br /><br />" + ctxt + "</div>\n"
 	
 	#Open template file
 	tf= open(templatefile)
