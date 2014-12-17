@@ -72,7 +72,7 @@ def buildpost(key,templatefile):
 	#Tags
 	printabletags = str()
 	for i in postlist[key][1]:
-		printabletags += '<a href="../../search.py?for=' + i + '&amp;in=tags">' + i + '</a>,'
+		printabletags += '<a href="/search.py?for=' + i + '&amp;in=tags">' + i + '</a>,'
 	printabletags.rstrip(",")
 	
 	#Content
@@ -82,12 +82,12 @@ def buildpost(key,templatefile):
 	
 	#Previous and next post buttons
 	if keylist[0] != key:
-		previouspost = "../../" + postlist[keylist[keylist.index(key)-1]][2] + ".html"
+		previouspost = "/" + postlist[keylist[keylist.index(key)-1]][2] + ".html"
 	else:
 		previouspost = ""
 	
 	if keylist[-1] != key:
-		nextpost = "../../" + postlist[keylist[keylist.index(key)+1]][2] + ".html"
+		nextpost = "/" + postlist[keylist[keylist.index(key)+1]][2] + ".html"
 	else:
 		nextpost = ""
 	
