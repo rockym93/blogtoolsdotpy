@@ -80,6 +80,9 @@ def buildpost(key,templatefile):
 	printabletext = markdown.markdown(contentfile.read().decode('utf-8')).encode('utf-8')
 	contentfile.close()
 	
+	#Summary
+	summary = content.split('\n')[0]
+	
 	#Previous and next post buttons
 	if keylist[0] != key:
 		previouspost = "/" + postlist[keylist[keylist.index(key)-1]][2] + ".html"
@@ -121,6 +124,7 @@ def buildpost(key,templatefile):
 	permalink = postlist[key][2] + ".html",
 	previous = previouspost,
 	next = nextpost
+	summary = summary
 	)
 
 	if not nextpost:
