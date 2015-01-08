@@ -110,7 +110,7 @@ def buildpost(key,templatefile):
 		comments += "<div class='comment'><b>" + cauth + " </b><br /><i> " + time.ctime(cts+28800) + " </i><br /><br />" + ctxt + "</div>\n"
 	
 	#Open template file
-	with io.open(templatefile, mode='rt', encoding='utf-8')) as tf:
+	with io.open(templatefile, mode='rt', encoding='utf-8') as tf:
 		template = tf.read()
 		
 	#Fill in template file
