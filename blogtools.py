@@ -110,7 +110,7 @@ def buildpost(key,templatefile):
 		comments += "<div class='comment'><b>" + cauth + " </b><br /><i> " + time.ctime(cts+28800) + " </i><br /><br />" + ctxt + "</div>\n"
 	
 	#Open template file
-	with file(templatefile) as tf:
+	with io.open(templatefile, mode='rt', encoding='utf-8')) as tf:
 		template = tf.read()
 		
 	#Fill in template file
@@ -139,7 +139,7 @@ def buildpost(key,templatefile):
 
 def buildfront(length=5):
 	'''rebuilds the front page'''
-	with file("templates/index.html") as f:
+	with io.open("templates/index.html", mode='rt', encoding='utf-8') as f:
 		front = f.read()
 	
 	frontposts = ""
@@ -164,7 +164,7 @@ def buildfront(length=5):
 
 def buildfeed(length=10):
 	'''rebuilds the atom feed'''
-	with file("templates/atom.xml") as f:
+	with io.open("templates/atom.xml", mode='rt', encoding='utf-8') as f:
 		feed = f.read()
 	feedposts = ""
 	for i in range(1, length+1):
