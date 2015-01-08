@@ -5,15 +5,15 @@ import string
 import os
 import urllib2
 import markdown
+import io
 
 if not os.path.exists("postlist"):
-	f = open("postlist","w")
-	yaml.dump({},f)
-	f.close()
+	with file("postlist","w") as f:
+		yaml.dump({},f)
 
-f = open("postlist")
-postlist = yaml.load(f)
-f.close()
+with file("postlist") as f:
+	postlist = yaml.load(f)
+
 
 keylist = postlist.keys()
 keylist.sort()
@@ -36,13 +36,15 @@ def newpost(timestamp, title, content, tags):
 		os.mkdir(year)
 	if not os.path.exists(year + "/" + month):
 		os.mkdir(year + "/" + month)
-	txtpost = open(filepath + ".txt","w")
+#	txtpost = open(filepath + ".txt","w")
+	txtpost = io.open(filepath + ".txt", mode='wt', encoding='utf-8')
 	txtpost.write(content)
 	txtpost.close()
 	
 	#Step 4: Build the html, and save it.
 	newpost = buildpost(timestamp,"templates/template.html")
-	htmlpost = open(filepath + ".html","w")
+#	htmlpost = open(filepath + ".html","w")
+	htmlpost = io.open(filepath + ".html", mode='wt', encoding='utf-8')
 	htmlpost.write(newpost)
 	htmlpost.close()
 	
@@ -76,12 +78,14 @@ def buildpost(key,templatefile):
 	printabletags.rstrip(",")
 	
 	#Content
-	contentfile = open(postlist[key][2] + ".txt","r")
-	printabletext = markdown.markdown(contentfile.read().decode('utf-8')).encode('utf-8')
+#	contentfile = open(postlist[key][2] + ".txt","r")
+	contentfile = io.open(postlist[key][2] + ".txt", mode='rt', encoding='utf-8')
+	mdtext = contentfile.read()
+	printabletext = markdown.markdown(mdtext)
 	contentfile.close()
 	
 	#Summary
-	summary = content.split('\n')[0]
+	summary = mdtext.split('\n')[0]
 	
 	#Previous and next post buttons
 	if keylist[0] != key:
@@ -99,16 +103,16 @@ def buildpost(key,templatefile):
 	for i in postlist[key][3]:
 		cts = i[0]
 		cauth = i[1]
-		cf = open(postlist[key][2] + "." + str(cts))
-		ctxt = cf.read().decode('utf-8')
+#		cf = open(postlist[key][2] + "." + str(cts))
+		cf = io.open(postlist[key][2] + "." + str(cts), mode='rt', encoding='utf-8')
+		ctxt = cf.read()
 		cf.close()
 		comments += "<div class='comment'><b>" + cauth + " </b><br /><i> " + time.ctime(cts+28800) + " </i><br /><br />" + ctxt + "</div>\n"
 	
 	#Open template file
-	tf= open(templatefile)
-	template = tf.read()
-	tf.close()
-	
+	with file(templatefile) as tf:
+		template = tf.read()
+		
 	#Fill in template file
 	posthtml = template.format(
 	date = time.strftime("%A, %d %B %Y",time.gmtime(key + 28800)),
@@ -135,9 +139,8 @@ def buildpost(key,templatefile):
 
 def buildfront(length=5):
 	'''rebuilds the front page'''
-	f = open("templates/index.html")
-	front = f.read()
-	f.close()
+	with file("templates/index.html") as f:
+		front = f.read()
 	
 	frontposts = ""
 	previous = ""
@@ -154,15 +157,15 @@ def buildfront(length=5):
 	content = frontposts,
 	previous = previous
 	)
-	indexfile = open("index.html","w")
+#	indexfile = open("index.html","wt")
+	indexfile = io.open('index.html', mode='wt', encoding='utf-8')
 	indexfile.write(front)
 	indexfile.close()
 
 def buildfeed(length=10):
 	'''rebuilds the atom feed'''
-	f = open("templates/atom.xml")
-	feed = f.read()
-	f.close()
+	with file("templates/atom.xml") as f:
+		feed = f.read()
 	feedposts = ""
 	for i in range(1, length+1):
 		try:
@@ -173,19 +176,20 @@ def buildfeed(length=10):
 	content = feedposts,
 	updated = time.strftime("%Y-%m-%dT%H:%M:%SZ")
 	)
-	feedfile = open("atom.xml","w")
+#	feedfile = open("atom.xml","w")
+	feedfile = io.open('atom.xml', mode='wt', encoding='utf-8')
 	feedfile.write(feed)
 	feedfile.close()
 
 def save():
 	'''saves the currently open module instance of the postlist'''
-	f = open("postlist","w")
-	yaml.dump(postlist,f)
-	f.close()
+	with file("postlist","w") as f:
+		yaml.dump(postlist,f)
 
 def refresh(post):
 	'''refreshes an individual post'''
-	f = open(postlist[post][2] + ".html","w")
+#	f = open(postlist[post][2] + ".html","w")
+	f = io.open(postlist[post][2] + ".html", mode='wt', encoding='utf-8')
 	f.write(buildpost(post, "templates/template.html"))
 	f.close()
 

@@ -9,6 +9,7 @@ import time
 import yaml
 import blogtools
 import markdown
+import io
 
 form = cgi.FieldStorage()
 if form.getvalue("captcha") == "apple":
@@ -21,8 +22,8 @@ if form.getvalue("captcha") == "apple":
 	content = form.getvalue("comment")
 	content = markdown.markdown(content.decode("utf-8"),safe_mode='escape')
 	
-	txtfile = open(blogtools.postlist[parent][2] + "." + str(timestamp),"w")
-	txtfile.write(content.encode("utf-8"))
+	txtfile = io.open(blogtools.postlist[parent][2] + "." + str(timestamp), mode='wt', encoding='utf-8')
+	txtfile.write(content)
 	txtfile.close()
 	
 	blogtools.refresh(parent)
