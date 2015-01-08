@@ -123,7 +123,7 @@ def buildpost(key,templatefile):
 	postid = str(key),
 	permalink = postlist[key][2] + ".html",
 	previous = previouspost,
-	next = nextpost
+	next = nextpost,
 	summary = summary
 	)
 
@@ -148,7 +148,7 @@ def buildfront(length=5):
 		except IndexError:
 			pass
 	if len(keylist) > length:
-		previous = postlist[keylist[-(length + 1)][2]] + ".html"
+		previous = postlist[keylist[-(length + 1)]][2] + ".html"
 	
 	front = front.format(
 	content = frontposts,
