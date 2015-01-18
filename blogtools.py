@@ -84,8 +84,13 @@ def buildpost(key,templatefile):
 	printabletext = markdown.markdown(mdtext)
 	contentfile.close()
 	
-	#Summary
+	#Summary:
 	summary = mdtext.split('\n')[0]
+	#And a representative image:
+	if os.path.exists(postlist[key][2] + ".jpg"):
+		postimg = postlist[key][2] + ".jpg"
+	else:
+		postimg = "templates/default.png"
 	
 	#Previous and next post buttons
 	if keylist[0] != key:
@@ -128,7 +133,8 @@ def buildpost(key,templatefile):
 	permalink = postlist[key][2] + ".html",
 	previous = previouspost,
 	next = nextpost,
-	summary = summary
+	summary = summary,
+	postimg = postimg
 	)
 
 	if not nextpost:
